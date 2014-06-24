@@ -18,7 +18,7 @@ import java.util.Vector;
 
 import org.json.*;
 
-public class TocHW4
+public class TocHw4
 {
 	public static void main( String[] args )
 	{
