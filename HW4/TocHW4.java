@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Vector;
 
 import org.json.*;
 
@@ -40,8 +41,8 @@ public class TocHW4
 	}
 
 	/* Categorize the data by the road name. Analyze the maximum and
-	 * minimun of the sale-price and the earliest and latest time of
-	 * saled. Store the result to the hash table. The key of the hash
+	 * minimun of the sale-price and the distinct time of saled
+	 * time. Store the result to the hash table. The key of the hash
 	 * table is the road name and the value of it is the result.
 	 *
 	 * - data: [in] The JSON array that stores the information of the
@@ -89,19 +90,16 @@ public class TocHW4
 
 					// Compare the sale-price and sale-month
 					salePrice = ((Integer)element.get( "總價元" )).intValue();
-					saleMonth = ((Integer)element.get( "交易年月" )).intValue();
+					saleMonth = (Integer)element.get( "交易年月" );
 					// Maximun sale-price
 					if ( salePrice > request.maxSalePrice )
 						request.maxSalePrice = salePrice;
 					// Minimun sale-price
 					if ( salePrice < request.minSalePrice )
 						request.minSalePrice = salePrice;
-					// Latest sale month
-					if ( saleMonth > request.maxSaleMonth )
-						request.maxSaleMonth = saleMonth;
-					// Earliset sale month
-					if ( saleMonth < request.minSaleMonth )
-						request.minSaleMonth = saleMonth;
+					// The distinct month
+					if ( !request.months.contains( saleMonth ) )
+						request.months.add( saleMonth );
 
 					// Update the hash table
 					result.put( roadName, request );
