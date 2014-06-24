@@ -79,12 +79,12 @@ public class TocHW4
 					// Is the new here?
 					if ( !result.containsKey( roadName ) )
 					{
-						// Create new element of the hash table
+						// Create new element for the hash table
 						request = new DataRequest();
 					}
 					else
 					{
-						// Get the element of the hash table
+						// Get the element from the hash table
 						request = result.get( roadName );
 					}
 
@@ -107,6 +107,46 @@ public class TocHW4
 			}	// end of ( vaild JSON element )
 		}	// end of for ( JSON element )
 
+		// Find the max distinct month
+		Enumeration keys = result.keys();
+		String output = "";
+		int maxDistinctMonth = 0;
+
+		while ( keys.hasMoreElements() )
+		{
+			String key = keys.nextElement().toString();
+			request = (DataRequest)result.get( key );
+
+			if ( request.months.size() > maxDistinctMonth )
+			{
+				maxDistinctMonth = request.months.size();
+				// Reset String
+				output = appendResult( key, request );
+			}
+			// There is not only one case having max distinct month.
+			else if ( request.months.size() == maxDistinctMonth )
+			{
+				output = output + "\n" + appendResult( key, request );
+			}
+		}
+
+		// Output the result
+		System.out.println( output );
+
 	}	// end of dataAnalysis() func
+
+	/* Append the road name and the maximun and the minimum of the saled
+	 * price, and transform the string to the proper format.
+	 *
+	 * - roadName: [in] The road name
+	 * - request: [in] The data structure of the road
+	 *
+	 * Return the procesed string.
+	 */
+	public static String appendResult( String roadName, DataRequest request )
+	{
+		return roadName + ", 最高成交價: " + request.maxSalePrice +
+			", 最低成交價: " + request.minSalePrice;
+	}
 
 }	// end of TOCHw4 class
